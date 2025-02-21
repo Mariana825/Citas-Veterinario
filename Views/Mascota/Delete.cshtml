@@ -1,0 +1,66 @@
+﻿@model PuppyCit.Models.Mascota
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<link rel="stylesheet" href="~/css/eliminarcuenta.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/eliminarcuenta.jpg" alt="" />
+    </div>
+
+
+    <form asp-action="Delete" id="Form">
+
+        <h1 id="FormHeading">¿Estás seguro de eliminar tu Mascota?</h1>
+        <div class="form-group">
+            <li>
+
+                @Html.HiddenFor(m => m.IdMascota)
+       
+            @Html.DisplayNameFor(model => model.Nombre)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Nombre)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Tamaño)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Tamaño)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Edad)
+            </li>
+
+            
+            @Html.DisplayFor(model => model.Edad)
+        
+                @Html.HiddenFor(m => m.IdRaza)
+                @Html.HiddenFor(m => m.IdCliente)
+
+
+
+                <button type="submit">Eliminar</button>
+                <br />
+                <a href="@Url.Action("Info", "Cliente")">
+                    <button type="button" class="btn btn-secondary">Regresar</button>
+                </a>
+
+
+        </div>
+    </form>
+
+
+</div>

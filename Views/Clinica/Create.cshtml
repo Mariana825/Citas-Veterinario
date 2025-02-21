@@ -1,0 +1,195 @@
+﻿@model PuppyCit.Models.Clinica
+
+@{
+    ViewData["Title"] = "Create";
+   
+}
+<link rel="stylesheet" href="~/css/createclinica.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/createclinica.jpg" alt="" />
+    </div>
+
+
+
+    <form asp-action="Create" id="Form" onsubmit="return validarFormulario()">
+        <h1 id="FormHeading">Registrar Clínica</h1>
+
+        <div class="Name">
+            <li>
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span id="errorNombre" class="text-danger"></span>
+            </li>
+            
+            <li>
+
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" id="Telefono" maxlength="10"/>
+                <span id="errorTelefono" class="text-danger"></span>
+            </li>
+           
+            <li>
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" id="Estado" />
+                <span id="errorEstado" class="text-danger"></span>
+            </li> 
+            <li>
+                <label asp-for="Codigo_p" class="control-label"></label>
+                <input asp-for="Codigo_p" class="form-control" id="Codigo_p" maxlength="5"/>
+                <span id="errorCodigo_p" class="text-danger"></span>
+            </li>
+           
+            <li>
+                <label asp-for="Municipio" class="control-label"></label>
+                <input asp-for="Municipio" class="form-control" id="Municipio" />
+                <span id="errorMunicipio" class="text-danger"></span>
+            </li>
+           
+            <li>
+                <label asp-for="Colonia" class="control-label"></label>
+                <input asp-for="Colonia" class="form-control" id="Colonia" />
+                <span id="errorColonia" class="text-danger"></span>
+            </li>
+           
+            <li>
+
+                <label asp-for="Calle" class="control-label"></label>
+                <input asp-for="Calle" class="form-control" id="Calle" />
+                <span id="errorCalle" class="text-danger"></span>
+           </li>
+            <br />
+            </div>
+            <br />
+
+            <h4>Horarios de Atención</h4>
+          
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Día</th>
+                        <th>Hora Apertura</th>
+                        <th>Hora Cierre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dia in new[] { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes" })
+                    { // muestra el areglos de los dias de la semana
+                        <tr>
+                            <td>@dia</td>
+                            <td>
+                            <input type="time" name="@($"{dia.ToLower()}_hora_apertura")" class="form-control" required /> 
+                            <!--muestra un input para poder asignar la hora a cada dia de la semana-->
+                            </td>
+                            <td>
+                                <input type="time" name="@($"{dia.ToLower()}_hora_cierre")" class="form-control" required />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+
+        <button type="submit">Registrar</button>
+        
+
+ 
+        <a href="@Url.Action("Info", "Veterinario")">
+            <button type="button" class="btn btn-secondary">Regresar</button>
+        </a>
+
+    </form>
+  </div>
+
+<script>
+    function validarFormulario() {
+        let valido = true;
+        // obtiene los valores de los campos de entrada
+        const nombre = document.getElementById("Nombre").value.trim();
+        const telefono = document.getElementById("Telefono").value.trim();
+        const estado = document.getElementById("Estado").value.trim();
+        const codigo_p = document.getElementById("Codigo_p").value.trim();
+        const municipio = document.getElementById("Municipio").value.trim();
+        const colonia = document.getElementById("Colonia").value.trim();
+        const calle = document.getElementById("Calle").value.trim();
+        // valida que el nombre no esté vacío y solo contenga letras
+         if (!nombre || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre)) {
+            document.getElementById("errorNombre").innerText = "El nombre no puede estar vacío y debe contener solo letras.";
+            valido = false;
+        } else {
+            document.getElementById("errorNombre").innerText = "";
+        }
+        // valida que el teléfono tenga exactamente 10 dígitos
+        if (!telefono || !/^\d{10}$/.test(telefono)) {
+            document.getElementById("errorTelefono").innerText = "El teléfono no puede estar vació, y debe tener 10 digitos";
+            valido = false;
+        } else {
+            document.getElementById("errorTelefono").innerText = "";
+        }
+        // valida que el estado no esté vacío y no contenga números
+        if (!estado || /[0-9]/.test(estado)) {
+            document.getElementById("errorEstado").innerText = "El estado no puede estar vacio";
+            valido = false;
+        } else {
+            document.getElementById("errorEstado").innerText = "";
+        }
+        // valida que el código postal tenga exactamente 5 dígitos
+         if (!codigo_p || !/^\d{5}$/.test(codigo_p)) {
+            document.getElementById("errorCodigo_p").innerText = "El código postal no puede estar vacio y debe tener 5 dígitos";
+            valido = false;
+        } else {
+            document.getElementById("errorCodigo_p").innerText = "";
+        }
+        // valida que el municipio no esté vacío y no contenga números
+        if (!municipio || /[0-9]/.test(municipio)) {
+            document.getElementById("errorMunicipio").innerText = "El municipio no puede estar vació";
+            valido = false;
+        } else {
+            document.getElementById("errorMunicipio").innerText = "";
+        }
+        // valida que la colonia no esté vacía
+        if (!colonia) {
+            document.getElementById("errorColonia").innerText = "La colonia no puede estar vació";
+            valido = false;
+        } else {
+            document.getElementById("errorColonia").innerText = "";
+        }
+        // valida que la calle no esté vacía
+
+        if (!calle) {
+            document.getElementById("errorCalle").innerText = "La calle no puede estar vaciá";
+            valido = false;
+        } else {
+            document.getElementById("errorCalle").innerText = "";
+        }
+
+        return valido;
+    }
+    // restringe la entrada del campo "nombre" para que solo acepte letras y espacios
+
+    document.getElementById("Nombre").addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+    // restringe la entrada del campo "estado" para que solo acepte letras y espacios
+
+    document.getElementById("Estado").addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+    // restringe la entrada del campo "municipio" para que solo acepte letras y espacios
+
+    document.getElementById("Municipio").addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+    // restringe la entrada del campo "teléfono" para que solo acepte números
+    document.getElementById("Telefono").addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+    // restringe la entrada del campo "código postal" para que solo acepte números
+    document.getElementById("Codigo_p").addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+</script>
+
+
+

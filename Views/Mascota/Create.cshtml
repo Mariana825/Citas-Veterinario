@@ -1,0 +1,75 @@
+﻿@model PuppyCit.Models.Mascota
+
+@{
+    ViewData["Title"] = "Create";
+  
+}
+
+
+<link rel="stylesheet" href="~/css/createmascota.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/createmascota.jpg" alt="" />
+    </div>
+
+
+    <form asp-action="Create" id="Form">
+        <h1 id="FormHeading">Registrar Mascota</h1>
+            <div class="form-group">
+            <li>
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </li>
+
+            <li>
+                <label asp-for="Tamaño" class="control-label"></label>
+                <select name="Tamaño" class="form-control" required>
+                    <option value="Pequeño">Pequeño</option>
+                    <option value="Mediano">Mediano</option>
+                    <option value="Grande">Grande</option>
+                </select>
+
+            </li>
+
+            <li>
+                <label asp-for="Edad" class="control-label"></label>
+                <input asp-for="Edad" class="form-control" />
+                <span asp-validation-for="Edad" class="text-danger"></span>
+            </li>
+
+            <li>
+                <label asp-for="IdRaza" class="control-label" >Seleccione una raza:</label>
+                <select name="IdRaza" class="form-control" required>
+                    @if (ViewData["Razas"] != null) //si hay razas las muestras
+                    {
+                        var razas = (List<Raza>)ViewData["Razas"];
+                        foreach (var raza in razas)
+                        { // recorre la lista de razas
+                            <option value="@raza.IdRaza">@raza.Nombre</option> //y muestara una opcion por cada raza
+                        }
+                    }
+                    else
+                    {
+                        <option value="">No hay razas disponibles</option>
+                    }
+                </select>
+           
+            </li>
+
+
+            <button type="submit">Registrar</button>
+
+            <a href="@Url.Action("Info", "Cliente")">
+                <button type="button" class="btn btn-secondary">Regresar</button>
+            </a>
+
+            
+        </form>
+    </div>
+</div>
+
+
+   
+

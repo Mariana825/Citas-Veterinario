@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+
+}
+
+
+    <link rel="stylesheet" href="~/css/principal.css" />
+    <body>
+    <div id="FormContainer">
+        <div class="ImgContainer">
+            <img src="~/img/principal.jpg" alt="Imagen principal" />
+        </div>
+        <div class="info">
+            <h1>Bienvenido a PuppyCit</h1>
+            <h3>¿Deseas registrarte o iniciar sesión?</h3>
+            <div class="button-container">
+                <a href="@Url.Action("Create", "Usuario")" class="info-btn">Registrarse</a>
+                <a href="@Url.Action("Login", "InicioSesion")" class="info-btn">Iniciar sesión</a>
+            </div>
+            <p>Cuidamos de tu Mascota</p>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+</body>

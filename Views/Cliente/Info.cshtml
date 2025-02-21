@@ -1,0 +1,426 @@
+﻿@model PuppyCit.Models.Cliente
+
+@{
+    ViewData["Title"] = "Detalles del Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/cliente.css" />
+
+@{
+    var cliente = ViewBag.Cliente; //pasa a la vista todo lo de cliente, citas y servicios desde el metodo info en cliente controller
+    var citas = ViewBag.Citas;
+ var servicios = ViewBag.Servicios as List<PuppyCit.Models.Servicio>;
+
+}
+
+<h1>Perfil  @Model.Usuario.Nombre</h1>
+
+
+
+<div class="panel panel-success">
+
+    <div class="contenido">
+
+    <div class="cliente-info">
+        <img src="~/img/cliente.jpg" alt="Imagen">
+    </div>
+
+    <div class="datos-personales">
+       
+        <div class="form-group">
+            <span class="block text-success bold">Nombre:</span>
+            @Model.Usuario.Nombre
+
+        </div>
+        <div class="form-group">
+            <span class="block text-success bold">Apellidos:</span>
+            @Model.Usuario.Apellidos
+        </div>
+        <div class="form-group">
+            <span class="block text-success bold">Teléfono:</span>
+            @Model.Usuario.Telefono
+
+            
+        </div>
+        <a href="@Url.Action("EditDatosPersonales", "Cliente", new { idUsuario = Model.IdUsuario })" class="btn btn-secondary">Editar Datos Personales</a>
+
+      </div>
+    <div class="datos-direccion">
+        <div class="form-group">
+            <span class="block text-success bold">Estado:</span>
+            @Model.Estado
+        </div>
+        <div class="form-group">
+            <span class="block text-success bold">Código Postal:</span>
+            @Model.Codigop
+        </div>
+        <div class="form-group">
+            <span class="block text-success bold">Municipio:</span>
+            @Model.Municipio
+        </div>
+        <div class="form-group">
+            <span class="block text-success bold">Colonia:</span>
+            @Model.Colonia
+        </div>
+        <div class="form-group">
+            <span class="block text-success bold">Calle:</span>
+            @Model.Calle
+            
+        </div>
+        <a href="@Url.Action("EditDireccion", "Cliente", new { idUsuario = Model.IdUsuario })" class="btn btn-primary">Editar Dirección</a>
+
+       </div>
+
+       </div>
+
+
+
+    <h2>Encuentra tu clínica más cercana</h2>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <!-- asignamos la apikey de google -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQKQswcK2GZJM9WmKbV9rCo8Qw1kfZ5lQ"></script>
+    <script>
+        function initMap() {
+            // se inicializa el geocoder para convertir direcciones a coordenadas
+            const geocoder = new google.maps.Geocoder();
+            // se configura el mapa con un zoom inicial de 14 y un centro en coordenadas (0,0)
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: { lat: 0, lng: 0 } 
+            });
+
+            // se definen los iconos personalizados para cliente y clínicas
+            const clienteIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'; // Marcador azul para cliente
+            const clinicaIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'; // Marcador rojo para clínicas
+
+            // se construye la dirección del cliente usando datos del modelo
+            const direccionCliente = `@Model.Calle, @Model.Colonia, @Model.Municipio, @Model.Estado, @Model.Codigop`;
+            // se geocodifica la dirección del cliente para obtener sus coordenadas
+            geocoder.geocode({ address: direccionCliente }, (results, status) => {
+                if (status === 'OK') {
+                    // si la geocodificación es exitosa, centra el mapa y añade un marcador azul
+
+                    map.setCenter(results[0].geometry.location);
+                    new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location,
+                        title: 'Ubicación del Cliente',
+                        icon: clienteIcon 
+                    });
+                } else {  // si falla, muestra un mensaje de error en la consola
+                    console.error('Error al geocodificar la dirección del cliente:', status);
+                }
+            });
+
+           
+            const clinicas = [  // se define un array con información de las clínicas desde el ViewBag
+        @foreach (var clinica in ViewBag.Clinicas)
+        {
+            <text>
+                        {
+                            Nombre: "@clinica.Nombre",
+                        Calle: "@clinica.Calle",
+                        Colonia: "@clinica.Colonia",
+                        Municipio: "@clinica.Municipio",
+                        Estado: "@clinica.Estado",
+                        CodigoPostal: @clinica.Codigo_p
+                            },
+            </text>
+        } // se recorre el array para geocodificar y añadir un marcador rojo para cada clínica
+
+                        ]; 
+
+            // Geocodificar y agregar marcadores para cada clínica
+            clinicas.forEach(clinica => {
+                const direccionClinica = `${clinica.Calle}, ${clinica.Colonia}, ${clinica.Municipio}, ${clinica.Estado}, ${clinica.CodigoPostal}`;
+
+                geocoder.geocode({ address: direccionClinica }, (results, status) => {
+                    if (status === 'OK') {
+                        new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location,
+                            title: clinica.Nombre,
+                            icon: clinicaIcon // Icono personalizado para las clínicas
+                        });
+                    } else {
+                        console.error(`Error al geocodificar la dirección de la clínica ${clinica.Nombre}:`, status);
+                    }
+                });
+            });
+        }
+
+        window.onload = initMap; // llama a la función initMap cuando la página cargue
+    </script>
+
+
+
+    <h2>Citas Registradas</h2>
+
+    @if (ViewBag.Citas != null && ViewBag.Citas.Count > 0) //si la citas obtenidas de viewbag no es nullo, se va a mostrar la tabla
+    {
+        <div class="table-wrapper">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Horario</th>
+                    <th>Estado</th>
+                    <th>Nombre Mascota</th>
+                    <th>Especie</th>
+                    <th>Raza</th>
+                    <th>Veterinario</th>
+                    <th>Clinica</th>
+                    <th>Servicio</th>
+                     <th>Reseña</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cita in ViewBag.Citas) //recorre todas las citas
+                {
+                    <tr>
+                        <td>@cita.Fecha.ToShortDateString()</td>
+                        <td>@cita.Horario</td>
+                        <td>@cita.Estado</td>
+                        <td>@cita.Mascota.Nombre</td>
+                        <td>@cita.Mascota.Especie.Nombre</td>
+                        <td>@cita.Mascota.Raza.Nombre</td>
+                        <td>@cita.Veterinario.Nombre</td>
+                        <td>@cita.Clinica.Nombre</td>
+                        
+                        <td>
+                             @if (cita.Servicio != null) //aino tiene servicio se muestra un boton para ver el servicio
+                            {
+                                <button class="btn btn-info" type="button" onclick="toggleServicio(this)">Ver Servicio</button>
+                                <div class="servicio-details" style="display:none;">
+                                     <!--se muestran todos los datos de ese servicio-->
+                                    <p><strong>Nombre:</strong> @cita.Servicio.Nombre</p>
+                                    <p><strong>Tratamiento:</strong> @cita.Servicio.Tratamiento</p>
+                                    <p><strong>Costo:</strong> @cita.Servicio.Costo</p>
+                                    <p><strong>Diagnóstico:</strong> @cita.Servicio.Diagnostico</p>
+                                    <p><strong>Método de Pago:</strong> @cita.Servicio.MetodoPago</p>
+                                </div>
+                                @if (cita.Estado == "Pendiente de Pago") //si el estado de la cita es pendiente de pago, se va a mostrar el boton de paypal
+                                { <!-- se deben de mandar todo estos datos para la api de paypal-->
+                                        <input type="hidden" id="idCita" value="@cita.IdCita" />
+                                        <input type="hidden" id="monto" value="@cita.Servicio.Costo" />
+                                        <input type="hidden" id="nombreServicio" value="@cita.Servicio.Nombre" />
+                                        <input type="hidden" id="nombreClinica" value="@cita.Clinica.Nombre" />
+                                        <input type="hidden" id="correoPayPalVeterinario" value="@cita.Servicio.Cuentapaypal" />
+
+                                       
+                                        <div id="paypal-button-container"></div>
+
+                                }
+                                else if (cita.Estado == "Finalizada")
+                                { //si el estado de la cita es finalizado se pone como pagado
+                                    <span class="text-success">Pagado</span>
+                                }
+                                else
+                                { //si no es pendiente de pago, ni finalizada
+                                    <span class="text-warning">Sin acciones</span>
+                                }
+                            
+                            <td>
+                                    @if (cita.Resena != null)
+                                    { // si existe una reseña, se muestar el boton de mostarr reseña
+
+                                    <button class="btn btn-primary" type="button" onclick="toggleResena(this)">Ver Resena</button>
+
+                                    <div class="resena-details" style="display:none;">
+                                        <div>
+                                            <!-- con los datos de la reseña-->
+                                            <strong>Comentario:</strong> @cita.Resena.Comentario<br />
+                                            <strong>Calificación:</strong> @cita.Resena.Calificacion / 5
+                                        </div>
+                                    </div>
+                                    }
+                                    else
+                                    { // sino hay una reseña de muestra un boton para calificar el servicio
+                                    <a href="@Url.Action("Create", "Resena", new { idCliente = Model.IdCliente, idVeterinario = cita.Veterinario.IdVeterinario, idServicio = cita.Servicio.IdServicio })" class="btn btn-secondary">
+                                        Calificar Servicio
+                                    </a>
+
+                                    }
+                            </td>
+                            }else
+                            { //si no hay servicio se muestra este mensaje
+                                <span>No tiene servicio</span>
+                            }
+                        </td>
+                            
+                            </tr>
+                        }
+                    </tbody>
+        </table>
+        </div>
+    }
+    else
+    { //sino tiene citas registradas se muestra este mensaje
+        <p>No tiene citas registradas.</p>
+    }
+
+
+
+    <script>
+        function toggleServicio(button) {
+            // obtiene el siguiente div (contenido de servicio) que está después del botón
+            var servicioDiv = button.nextElementSibling;
+
+            // verificamos si el div de servicio está oculto o visible
+            if (servicioDiv.style.display === "none") {
+                servicioDiv.style.display = "block";  // mostramos el servicio
+                button.textContent = "Ocultar Servicio";  // cambiamos el texto del botón
+            } else {
+                servicioDiv.style.display = "none";   // ocultamos el servicio
+                button.textContent = "Ver Servicio";  // cambiamos el texto del botón
+            }
+        }
+        function toggleResena(button) {  // obtiene el siguiente div (contenido de reseña) que está después del botón
+        var resenaDiv = button.nextElementSibling;
+        if (resenaDiv.style.display === "none") {
+                resenaDiv.style.display = "block"; // mostramos la reseña
+            button.textContent = "Ocultar Reseña"; 
+        } else {
+            resenaDiv.style.display = "none"; //ocultamos la reseña
+            button.textContent = "Ver Reseña";
+        }
+    }
+       
+    </script>
+
+
+
+
+
+    <h2>Mascotas Registradas</h2>
+    @if (ViewBag.Mascotas != null && ViewBag.Mascotas.Count > 0) //si hay mascotas en el viewbang, se muestra la tabla
+    {
+        <div class="table-wrapper">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>Raza</th>
+                    <th>Especie</th>
+                    <th> Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mascota in ViewBag.Mascotas) //recorre las  mascotas
+                {
+                    <tr>
+                        <td>@mascota.Nombre</td>
+                        <td>@mascota.Edad</td>
+                        <td>@mascota.Raza.Nombre</td>
+                        <td>@mascota.Especie.Nombre</td>
+                      <td>
+                          <a href="@Url.Action("Edit", "Mascota", new { id = mascota.IdMascota })" class="btn btn-primary">
+                            Editar Mascota
+                            <!-- boton para poder editar la mascota donde pasamos el id-->
+                        </a>
+                      </td> 
+                      <td>
+                       <a href="@Url.Action("Delete", "Mascota", new { id = mascota.IdMascota })" class="btn btn-danger" >
+                            Eliminar Mascota
+                                    <!-- boton para poder eliminar la mascota donde pasamos el id-->
+                        </a>
+                          </td> 
+                    </tr>
+                }
+            </tbody>
+           
+        </table>
+        </div>
+    }
+    else
+    { //sino tiene mascotas se muestra este mensaje
+        <p>No tiene Mascotas registradas.</p> 
+    }
+
+
+
+    <div class="form-group">
+        <a href="@Url.Action("SelecEspecie", "Mascota")" class="btn btn-primary">Registrar Mascota</a>
+        <a href="@Url.Action("SelecClinica", "Cita")" class="btn btn-secondary">Registrar Cita</a>
+        <a asp-action="Logout" asp-controller="InicioSesion" class="btn btn-danger">Cerrar Sesión</a>
+    </div>
+
+</div>
+
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=AXBfp7uCU525NayRMJ2l1QXQIAeLBkooTA4TWK899aQvxLwFSDlH61HP1pvcNXUQZhcrrqO_Nv_mxB7A&currency=MXN"></script>
+<script>
+    paypal.Buttons({
+        // este es el método que se llama para crear el pedido en paypal
+        createOrder: function (data, actions) {
+            // obtengo los valores del formulario que voy a usar en el pago
+            const idCita = document.getElementById('idCita').value;
+            const monto = document.getElementById('monto').value;
+            const nombreServicio = document.getElementById('nombreServicio').value;
+            const nombreClinica = document.getElementById('nombreClinica').value;
+            const correoPayPalVeterinario = document.getElementById('correoPayPalVeterinario').value;
+
+            // creo el pedido en paypal con los datos que recolecté
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: monto  // monto del pago
+                    },
+                    custom_id: idCita,  // id de la cita como identificador personalizado
+                    description: nombreServicio,  // descripción del servicio
+                    payee: {
+                        email_address: correoPayPalVeterinario  // correo del veterinario para recibir el pago
+                    },
+                    soft_descriptor: nombreClinica  // nombre de la clínica para aparecer en el recibo de pago
+                }]
+            });
+        },
+        // este es el método que se llama cuando el pago es aprobado
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                // si el pago se completa correctamente
+                if (details.status === 'COMPLETED') {
+                    // hago una solicitud fetch para actualizar el estado de la cita
+                    fetch('/Cliente/ActualizarCita', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            IdCita: document.getElementById('idCita').value,
+                            Estado: 'Finalizada',  // cambio el estado de la cita a 'Finalizada'
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Pago Realizado Correctamente. Cita actualizada con éxito.');
+                            // redirijo a la página de información de la cita
+                            window.location.href = '/Cliente/Info/' + document.getElementById('idCita').value;
+                        } else {
+                            console.error('Error al actualizar la cita:', response);
+                            alert('Pago Realizado Correctamente. Problema al actualizar el estado de la cita.');
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error en la solicitud fetch:', err);
+                    });
+                } else {
+                    // si el pago no se completa, muestro un mensaje de error
+                    alert('El pago no fue completado. Intenta nuevamente.');
+                }
+            });
+        },
+        // este es el método que se llama si ocurre un error en el pago
+        onError: function (err) {
+            console.error('Error en el pago:', err);
+            
+        }
+    }).render('#paypal-button-container');  // renderizo el botón de PayPal en el contenedor
+</script>
+
+
+

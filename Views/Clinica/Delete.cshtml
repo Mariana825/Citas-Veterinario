@@ -1,0 +1,96 @@
+﻿@model PuppyCit.Models.Clinica
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<link rel="stylesheet" href="~/css/eliminarcuenta.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/eliminarcuenta.jpg" alt="" />
+    </div>
+
+
+    <form asp-action="Delete" id="Form">
+
+        <h1 id="FormHeading">¿Estás seguro de eliminar la Clinica?</h1>
+        <div class="form-group">
+            <li>
+
+                @Html.HiddenFor(m => m.IdClinica)
+       
+            @Html.DisplayNameFor(model => model.Nombre)
+
+            </li>
+
+            <li>
+        
+            @Html.DisplayFor(model => model.Nombre)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Telefono)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Telefono)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Estado)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Estado)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Codigo_p)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Codigo_p)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Municipio)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Municipio)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Colonia)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Colonia)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Calle)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Calle)
+        </li>
+
+
+                <button type="submit">Eliminar</button>
+                <br />
+                <a href="@Url.Action("Info", "Veterinario")">
+                <button type="button" class="btn btn-secondary">Regresar</button>
+                </a>
+
+
+        </div>
+    </form>
+
+
+</div>

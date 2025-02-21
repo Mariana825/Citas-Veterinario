@@ -1,0 +1,50 @@
+﻿@model PuppyCit.Models.Cita
+
+@{
+    ViewData["Title"] = "Seleccionar Mascota Paso 3";
+}
+
+
+<link rel="stylesheet" href="~/css/createcliente.css" />
+
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/selectmascota.jpg" alt="" />
+    </div>
+
+
+    <form method="post" asp-action="Selecmas" id="form">
+        <h1 id="FormHeading"> Registrar Cita Paso 3 : Seleccionar Mascota</h1>
+
+        <div class="Name">
+            <li>
+
+            <label asp-for="IdMascota" class="control-label">Selecciona una Mascota:</label>
+            <select asp-for="IdMascota" class="form-control" required>
+                <option value="">Seleccione una mascota</option>
+            <!-- va a recorrer la lista de mascotas almacenada en ViewData que se obtuvo de info-cliente, en base al idcliente-->
+                @foreach (var mascota in (List<Mascota>)ViewData["Mascotas"])
+                {
+                    <!--va a mostrar todas las mascotas de ese cleitne-->
+                    <option value="@mascota.IdMascota">@mascota.Nombre</option>
+                }
+            </select>
+            </li>
+            <span asp-validation-for="IdMascota" class="text-danger"></span>
+        
+
+        <button type="submit" >Siguiente</button>
+   
+       <br />
+            <a href="@Url.Action("Selecvet", "Cita")">
+                <button type="button" class="btn btn-secondary">Regresar</button>
+            </a>
+            <br />
+            <a href="@Url.Action("Info", "Cliente")">
+                <button type="button" class="btn btn-warning">Cancelar</button>
+            </a>
+        </div>
+    </form>
+    </div>
+

@@ -1,0 +1,79 @@
+﻿@model PuppyCit.Models.Cliente
+
+@{
+    ViewData["Title"] = "Delete";
+   
+}
+
+
+
+<link rel="stylesheet" href="~/css/eliminarcuenta.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/eliminarcuenta.jpg" alt="" />
+    </div>
+
+
+    <form asp-action="Delete" id="Form">
+        <h1 id="FormHeading">¿Estás seguro de eliminar tu cuenta?</h1>
+        <div class="form-group">
+           
+
+            @Html.HiddenFor(m => m.IdCliente)
+            <li>
+            @Html.DisplayNameFor(model => model.Estado)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Estado)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Codigop)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Codigop)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Municipio)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Municipio)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Colonia)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Colonia)
+            </li>
+
+            <li>
+            @Html.DisplayNameFor(model => model.Calle)
+            </li>
+
+            <li>
+            @Html.DisplayFor(model => model.Calle)
+            </li>
+
+
+                @Html.HiddenFor(m => m.IdUsuario)
+
+
+                <button type="submit">Eliminar</button>
+
+
+    
+    
+        <a href="@Url.Action("Info", "Cliente")">
+            <button type="button" >Regresar</button>
+                </a>
+        </div>
+    </form>
+   
+</div>

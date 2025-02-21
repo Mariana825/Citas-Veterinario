@@ -1,0 +1,135 @@
+﻿@model PuppyCit.Models.Cliente
+
+@{
+    ViewData["Title"] = "Edit";
+
+}
+<link rel="stylesheet" href="~/css/editardireccion.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/editardireccion.jpg" alt="" />
+    </div>
+
+
+
+
+    <form asp-action="EditDireccion" id="Form" method="post" onsubmit="return validarFormulario()">
+        <h1 id="FormHeading">Editar Dirección</h1>
+
+       <div class="form-group">
+            <li>
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" id="estado" class="form-control" />
+                <span id="errorEstado" class="text-danger"></span>
+
+            </li>
+
+            <li>
+                <label asp-for="Codigop" class="control-label"></label>
+                <input asp-for="Codigop" id="codigop" class="form-control" maxlength="5" />
+                <span id="errorCodigop" class="text-danger"></span>
+
+            </li>
+
+            <li>
+                <label asp-for="Municipio" class="control-label"></label>
+                <input asp-for="Municipio" id="municipio" class="form-control" />
+                <span id="errorMunicipio" class="text-danger"></span>
+            </li>
+
+            <li>
+                <label asp-for="Colonia" class="control-label"></label>
+                <input asp-for="Colonia" id="colonia" class="form-control" />
+                <span id="errorColonia" class="text-danger"></span>
+            </li>
+
+            <li>
+                <label asp-for="Calle" class="control-label"></label>
+                <input asp-for="Calle" id="calle" class="form-control" />
+                <span id="errorCalle" class="text-danger"></span>
+            
+            </li>
+
+        @Html.HiddenFor(m => m.IdUsuario)
+
+
+        <button type="submit">Guardar </button>
+
+        <a href="@Url.Action("Info", "Cliente")">
+            <button type="button" name="button2">Regresar</button>
+        </a>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+<script>
+    function validarFormulario() {  // valida los campos del formulario
+        let valido = true;
+        // toma los valores de los campos
+        const estado = document.getElementById("estado").value.trim();
+        const codigop = document.getElementById("codigop").value.trim();
+        const municipio = document.getElementById("municipio").value.trim();
+        const colonia = document.getElementById("colonia").value.trim();
+        const calle = document.getElementById("calle").value.trim();
+
+        // se valida el campo estado: no vacío y solo letras
+        if (!estado || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(estado)) {
+            document.getElementById("errorEstado").innerText = "El estado no puede estar vacío y debe contener solo letras.";
+            valido = false;  // marca como inválido si no cumple
+        } else {
+            document.getElementById("errorEstado").innerText = ""; // limpia el mensaje de error
+        }
+        // se valida el código postal: no vacío y debe ser un número de 5 dígitos
+
+        if (!codigop || !/^\d{5}$/.test(codigop)) {
+            document.getElementById("errorCodigop").innerText = "El código postal debe ser un número de 5 dígitos.";
+            valido = false;  // marca como inválido si no cumple
+        } else {
+            document.getElementById("errorCodigop").innerText = ""; // limpia el mensaje de error
+        }
+
+        // valida que municipio no esté vacío y solo tenga letras
+        if (!municipio || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(municipio)) {
+            document.getElementById("errorMunicipio").innerText = "El municipio no puede estar vacío y debe contener solo letras.";
+            valido = false;  // marca como inválido si no cumple
+        } else {
+            document.getElementById("errorMunicipio").innerText = ""; // limpia el mensaje de error
+        }
+
+        // valida que colonia no esté vacía y solo tenga letras
+        if (!colonia || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(colonia)) {
+            document.getElementById("errorColonia").innerText = "La colonia no puede estar vacía y debe contener solo letras.";
+            valido = false;  // marca como inválido si no cumple
+        } else {
+            document.getElementById("errorColonia").innerText = ""; // limpia el mensaje de error
+        }
+
+        // valida que calle no esté vacía
+        if (!calle) {
+            document.getElementById("errorCalle").innerText = "La calle no puede estar vacía.";
+            valido = false;  // marca como inválido si no cumple
+        } else {
+            document.getElementById("errorCalle").innerText = ""; // limpia el mensaje de error
+        }
+
+        return valido;
+    }
+
+    // restringe caracteres inválidos en el campo estado
+    document.getElementById("estado").addEventListener("input", function (e) {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+    // restringe caracteres inválidos en el campo municipio
+    document.getElementById("municipio").addEventListener("input", function (e) {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+    // restringe caracteres inválidos en el campo colonia
+    document.getElementById("colonia").addEventListener("input", function (e) {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+</script>

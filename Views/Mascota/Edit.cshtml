@@ -1,0 +1,55 @@
+﻿@model PuppyCit.Models.Mascota
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link rel="stylesheet" href="~/css/createusuario.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/editarmascota.jpg" alt="" />
+    </div>
+
+
+    <form asp-action="Edit" id="Form">
+
+
+        <div class="form-group">
+          
+            @Html.HiddenFor(m => m.IdMascota) 
+            <!-- se manda el id mascota de manera oculta en el formulario-->
+            <li>
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </li>
+            
+            <li>
+                <label asp-for="Tamaño" class="control-label"></label>
+                <select name="Tamaño" class="form-control" required>
+                    <option value="Pequeño">Pequeño</option>
+                    <option value="Mediano">Mediano</option>
+                    <option value="Grande">Grande</option>
+                </select>
+            </li>
+
+            <li>
+                <label asp-for="Edad" class="control-label"></label>
+                <input asp-for="Edad" class="form-control" />
+                <span asp-validation-for="Edad" class="text-danger"></span>
+            </li>
+           
+           
+
+
+            <button type="submit">Guardar</button>
+            <a href="@Url.Action("Info", "Cliente")">
+                <button type="button">Regresar</button>
+            </a>
+
+            </div>
+        </form>
+    </div>

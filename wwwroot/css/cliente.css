@@ -1,0 +1,209 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+body {
+    background-color: #e6f7ff;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    
+}
+
+h1, h2 {
+    text-align: center;
+    color: #022305;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+.panel {
+    border: 1px solid #e3e3e3;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin: 20px auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+    .panel.panel-success {
+        background-color: #ffffff;
+        padding: 30px;
+        font-size: 18px;
+        border-radius: 15px;
+        margin: 20px auto;
+        max-width: 1200px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+    }
+
+.panel-heading {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.panel-title {
+    font-size: 18px;
+    margin: 0;
+}
+
+.panel-body {
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 0 0 10px 10px;
+}
+
+.panel .cliente-info img {
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-left:10px;
+}
+
+.contenido {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    margin-right: 10px;
+    justify-content: space-between;
+}
+.datos-container {
+   
+    display: flex;
+   
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+    .datos-container > div {
+        flex: 1;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+    }
+
+.btn {
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 12px;
+    margin: 5px;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #48C4CB;
+}
+
+    .btn-primary:hover {
+        background-color: #348E93;
+    }
+
+.btn-secondary {
+    background-color: #ffb347;
+}
+
+    .btn-secondary:hover {
+        background-color: #e69a2e;
+    }
+
+.btn-danger {
+    background-color: #F03842;
+}
+
+    .btn-danger:hover {
+        background-color: #F01E37;
+    }
+
+.table {
+    width: 85%;
+    max-width: 100%;
+    background-color: #f9f9f9;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    font-size: 12px;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+    .table th {
+        font-weight: bold;
+    }
+    .table th, .table td {
+        padding: 8px;
+        text-align: center;
+        color: #000000;
+        background-color: #ffccbc;
+        font-size: 14px;
+    }
+
+    .table td {
+        background-color: #fff8e1;
+        color: #000;
+        font-size: 12px;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f3e5f5;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #fff3e0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+button[type="button"] {
+    padding: 5px 10px;
+    font-size: 12px;
+    display: inline-block;
+    text-align: center;
+}
+
+#map {
+    height: 400px;
+    width: 80%;
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"], input[type="number"], textarea {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+    input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+        outline: none;
+        border-color: #28a745;
+        box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    }

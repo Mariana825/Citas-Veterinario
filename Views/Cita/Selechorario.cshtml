@@ -1,0 +1,73 @@
+﻿@model PuppyCit.Models.Cita
+
+@{
+    ViewData["Title"] = "Registrar Cita Paso 3";
+}
+
+
+<link rel="stylesheet" href="~/css/createmascota.css" />
+
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/selecthorario.jpg" alt="" />
+    </div>
+
+
+    <form method="post" asp-action="Selechorario" id="form">
+        <h1 id="FormHeading"> Registrar Cita Paso 4: Selecciona Fecha y Hora</h1>
+
+        <div class="Name">
+            <li>
+                <h3>Horario de la Clínica</h3>
+
+                @if (ViewData["Horarios"] != null)
+                {// se muestran los horarios que se han pasado
+                    var horarios = (List<HorarioClinica>)ViewData["Horarios"];
+                    foreach (var horario in horarios) //recorre esos horarios
+                    { //los muestra en un parrafo todo los horarios
+                        <p>@horario.Dia: @horario.HoraApertura.ToString(@"hh\:mm") - @horario.HoraCierre.ToString(@"hh\:mm")</p>
+                    }
+                }
+                else
+                {
+                    <p>No se han registrado horarios para esta clínica.</p>
+                }
+            </li>
+            <br />
+            <br />
+            <li>
+            <label asp-for="Fecha" class="control-label">Fecha:</label>
+            <input asp-for="Fecha" class="form-control" type="date" required />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+            </li>
+            <li>
+            <label asp-for="Horario" class="control-label">Hora:</label>
+            <input asp-for="Horario" class="form-control" type="time" required />
+            <span asp-validation-for="Horario" class="text-danger"></span>
+            </li>
+           
+           
+        <input type="hidden" name="idClinica" value="@ViewData["IdClinica"]" />
+        <input type="hidden" name="idVeterinario" value="@ViewData["IdVeterinario"]" />
+        <input type="hidden" name="idMascota" value="@ViewData["IdMascota"]" />
+
+
+            <!-- se mandan los ids necesarios para poder añadir la cita a la base de datos--> 
+
+
+            <button type="submit" >Confirmar Cita</button>
+       
+            <br />
+        <a href="@Url.Action("Selecmas", "Cita")">
+                <button type="button" class="btn btn-secondary">Regresar</button>
+        </a>
+        <br />
+            <a href="@Url.Action("Info", "Cliente")">
+                <button type="button" class="btn btn-warning">Cancelar</button>
+            </a>
+        </div>
+
+       
+    </form>
+    </div>

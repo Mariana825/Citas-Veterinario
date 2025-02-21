@@ -1,0 +1,81 @@
+﻿@model PuppyCit.Models.Resena
+
+@{
+    ViewData["Title"] = "Create";
+    
+}
+
+
+<link rel="stylesheet" href="~/css/createusuario.css" />
+
+            <div id="FormContainer">
+                <div class="ImgContainer">
+                    <img src="~/img/createresena.jpg" alt="" />
+                </div>
+
+         <form id="Form" asp-action="Create" onsubmit="return validarFormulario()">
+                    <h1 id="FormHeading">Crear Reseña</h1>
+
+
+                    <div class="Name">
+                        <li>
+           
+                <label asp-for="Comentario" class="control-label"></label>
+                <input asp-for="Comentario" class="form-control" maxlength="120" id="comentario" />
+                <span id="errorComentario" class="text-danger"></span>
+            </li>
+
+            <li>
+                <label asp-for="Calificacion" class="control-label"></label>
+                <input asp-for="Calificacion" class="form-control" id="calificacion" maxlength="1" />
+                <span id="errorCalificacion" class="text-danger"></span>
+            
+        </li> 
+            @Html.HiddenFor(m => m.IdCliente)
+            @Html.HiddenFor(m => m.IdServicio)
+            @Html.HiddenFor(m => m.IdVeterinario)
+
+
+            <button type="submit">Crear</button>
+
+            <br />
+                    <a href="@Url.Action("Info", "Cliente")">
+                        <button type="button" class="btn btn-secondary">Regresar</button>
+                    </a>
+           </div>
+        </form>
+    </div>
+
+<script>
+    function validarFormulario() {
+        let valido = true;
+        // obtiene los valores de los campos de entrada
+        const comentario = document.getElementById("comentario").value.trim();
+        const calificacion = document.getElementById("calificacion").value.trim();
+
+        // valida que el comentario no esté vacío, tenga al menos 10 caracteres y no más de 120
+        if (!comentario || comentario.length < 10 || comentario.length > 120) {
+            document.getElementById("errorComentario").innerText =
+                "El comentario debe tener entre 10 y 250 caracteres.";
+            valido = false;
+        } else {
+            document.getElementById("errorComentario").innerText = "";
+        }
+
+        // valida que la calificación sea un número entre 1 y 5
+        if (!calificacion || !/^[1-5]$/.test(calificacion)) {
+            document.getElementById("errorCalificacion").innerText =
+                "La calificación debe ser un número entre 1 y 5.";
+            valido = false;
+        } else {
+            document.getElementById("errorCalificacion").innerText = "";
+        }
+
+        return valido; // retorna si el formulario es válido o no
+    }
+
+    // restringe la entrada en el campo "calificación" a números entre 1 y 5
+    document.getElementById("calificacion").addEventListener("input", function () {
+        this.value = this.value.replace(/[^1-5]/g, ""); 
+    });
+</script>

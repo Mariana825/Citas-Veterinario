@@ -1,0 +1,41 @@
+﻿@model PuppyCit.Models.Mascota
+
+@{
+    ViewData["Title"] = "Seleccionar Especie";
+}
+
+
+
+<link rel="stylesheet" href="~/css/selectespecie.css" />
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/selectmascota.jpg" alt="" />
+    </div>
+
+
+
+    <form asp-action="SelecEspecie" method="post" id="Form">
+        <div class="form-group">
+            <li>
+                <label for="IdEspecie">Seleccione una especie:</label>
+                <select name="IdEspecie" class="form-control" required>
+                    <!-- recorre la lista de especies que se mando desde mascota controller-->
+                    @foreach (var especie in (List<Especie>)ViewData["Especies"])
+                    {
+                        <option value="@especie.IdEspecie">@especie.Nombre</option> <!-- se muestra cada especie en un opcion-->
+                    }
+                </select>
+            </li>
+
+            <button type="submit" >Continuar</button>
+            <a href="@Url.Action("Info", "Cliente")">
+                <button type="button" >Regresar</button>
+            </a>
+        </div>
+    </form>
+</div>
+
+
+
+

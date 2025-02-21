@@ -1,0 +1,114 @@
+﻿
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-color: #A33B9A;
+    --background-color: #BF40E2;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background: var(--background-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+#FormContainer {
+    background-color: #ffffffa1;
+    backdrop-filter: blur(10px);
+    border: 2px solid #ffffff6d;
+    width: 1200px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 11px 1.5px #0000002b;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.ImgContainer {
+    flex: 0.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .ImgContainer img {
+        width: 300px;
+        height: 600px;
+        border-radius: 10px;
+        object-fit: cover;
+        box-shadow: 2px 2px 8px #00000040;
+    }
+
+form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+h1 {
+    color: var(--main-color);
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.Name,
+.form-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+form li {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+form label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--main-color);
+}
+
+form input,
+form select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #ffffff6d;
+    color: var(--main-color);
+    outline: none;
+}
+
+    form input:focus,
+    form select:focus {
+        border: 2px solid var(--main-color);
+    }
+
+form button, button2, button3 {
+    margin: 20px auto 0 auto;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: var(--main-color);
+    border: none;
+    cursor: pointer;
+}

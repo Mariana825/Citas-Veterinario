@@ -1,0 +1,45 @@
+﻿@model PuppyCit.Models.Cita
+
+@{
+    ViewData["Title"] = "Registrar Cita Paso 1";
+}
+
+
+<link rel="stylesheet" href="~/css/selectclinica.css" />
+
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/selectclinica.jpg" alt="" />
+    </div>
+
+
+    <form method="post" asp-action="SelecClinica" id="Form" >
+        <h1 id="FormHeading"> Registrar Cita Paso 1: Selecciona la Clínica</h1>
+
+        <div class="Name">
+            <li>
+
+        <label asp-for=" Clinica" class="control-label">Selecciona una Clínica:</label>
+        
+        <select id="clinica" name="idClinica" class="form-control" required>
+            <option value="">Seleccione una clínica</option>
+            <!-- va a recorrer la lista de clinicas almacenada en ViewData que se obtuvo de info-cliente -->
+            @foreach (var clinica in (List<Clinica>)ViewData["Clinicas"])
+            {
+   <!-- por cada clinica en la lista se genera un elemento option- el texto entre las etiquetas va atener el id clincia -->
+                <option value="@clinica.IdClinica">@clinica.Nombre</option>
+            }
+
+        </select>
+        </li>
+        
+            <button type="submit" >Siguiente</button>
+        
+            <br />
+            <a href="@Url.Action("Info", "Cliente")">
+                <button type="button" class="btn btn-secondary">Cancelar</button>
+            </a>
+        </div>
+</form>
+</div>

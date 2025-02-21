@@ -1,0 +1,136 @@
+﻿@model PuppyCit.Models.Usuario
+
+@{
+    ViewData["Title"] = "Crear Usuario";
+}
+<link rel="stylesheet" href="~/css/createusuario.css" />
+
+
+<div id="FormContainer">
+    <div class="ImgContainer">
+    <img src="~/img/createusuario.jpg" alt=""  />
+    </div>
+
+    <form id="Form" asp-action="Create" onsubmit="return validarFormulario()">
+        <h1 id="FormHeading">Crear Usuario</h1>
+
+        <div class="Name">
+            <li>
+                <label asp-for="Nombre" class="control-label">Nombre:</label>
+                <input asp-for="Nombre" id="nombre" placeholder="" />
+                <span id="errorNombre" class="text-danger"></span>
+            </li>
+            <li>
+                <label asp-for="Apellidos" class="control-label">Apellidos:</label>
+                <input asp-for="Apellidos" id="apellidos" placeholder="" />
+                <span id="errorApellidos" class="text-danger"></span>
+            </li>
+        
+
+        <li>
+            <label asp-for="Telefono" class="control-label">Teléfono:</label>
+                <input asp-for="Telefono" id="telefono" placeholder="12-34567891" maxlength="10" />
+                <span id="errorTelefono" class="text-danger"></span>
+        </li>
+        </div>
+
+        <div class="password">
+            <li>
+                <label asp-for="Contraseña" class="control-label">Contraseña:</label>
+                <input asp-for="Contraseña" id="contraseña" type="password" minlength="6" />
+                <span id="errorContraseña" class="text-danger"></span>
+            </li>
+          
+        </div>
+
+        <li>
+            <label asp-for="Tipo" class="control-label">Seleccione tipo:</label>
+            <select asp-for="Tipo" id="tipo">
+                <option value="">Seleccione...</option>
+                <option value="1">Cliente</option>
+                <option value="2">Veterinario</option>
+            </select>
+            <span id="errorTipo" class="text-danger"></span>
+        </li>
+
+        <button type="submit">Crear Usuario</button>
+    
+
+    <div>
+        <a href="@Url.Action("Index", "Home")">
+                <button type="button" name="button2" class="btn btn-secondary">Regresar</button>
+        </a>
+    </div>
+    </form>
+</div>
+
+<script>
+    function validarFormulario() {  // funcion para validar el formulario
+        let valido = true; // determinar si el formulario es válido
+
+        //obtiene  los valores de los campos del formulario
+        const nombre = document.getElementById("nombre").value.trim();
+        const apellidos = document.getElementById("apellidos").value.trim();
+        const telefono = document.getElementById("telefono").value.trim();
+        const contraseña = document.getElementById("contraseña").value.trim();
+        const tipo = document.getElementById("tipo").value;
+
+        // validación del campo "nombre" (debe contener solo letras)
+        if (!nombre || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre)) {
+            document.getElementById("errorNombre").innerText = "El nombre no puede estar vacío y debe contener solo letras.";
+            valido = false; // si no es válido, cambiar el estado de "valido" a falso
+        } else {
+            document.getElementById("errorNombre").innerText = "";
+        }
+
+        // validación del campo "apellidos" (debe contener solo letras)
+        if (!apellidos || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(apellidos)) {
+            document.getElementById("errorApellidos").innerText = "Los apellidos no pueden estar vacíos y deben contener solo letras.";
+            valido = false;
+        } else {
+            document.getElementById("errorApellidos").innerText = "";
+        }
+
+        // validación del campo "telefono" (debe ser un número de 10 dígitos)
+        if (!telefono || !/^\d{10}$/.test(telefono)) {
+            document.getElementById("errorTelefono").innerText = "El teléfono debe contener exactamente 10 dígitos y solo números.";
+            valido = false;
+        } else {
+            document.getElementById("errorTelefono").innerText = "";
+        }
+
+        // validación del campo "contraseña" (debe tener al menos 8 caracteres)
+        if (!contraseña || contraseña.length < 8) {
+            document.getElementById("errorContraseña").innerText = "La contraseña debe tener al menos 8 caracteres.";
+            valido = false;
+        } else {
+            document.getElementById("errorContraseña").innerText = "";
+        }
+
+        // validación del campo "tipo" (debe ser seleccionado)
+        if (!tipo) {
+            document.getElementById("errorTipo").innerText = "Debe seleccionar un tipo.";
+            valido = false;
+        } else {
+            document.getElementById("errorTipo").innerText = "";
+        }
+
+        return valido; // si todas las validaciones pasaron, retorna verdadero
+    }
+
+    // restringe la entrada en el campo "nombre" a letras y espacios
+    document.getElementById("nombre").addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+
+    // restringe la entrada en el campo "apellidos" a letras y espacios
+    document.getElementById("apellidos").addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+    });
+
+    // restringe la entrada en el campo "telefono" a numeros
+    document.getElementById("telefono").addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+</script>
+

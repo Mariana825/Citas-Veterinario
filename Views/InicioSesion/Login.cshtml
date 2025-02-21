@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Iniciar Sesión";
+ 
+}
+
+
+<link rel="stylesheet" href="~/css/iniciosesion.css" />
+
+@if (ViewBag.Error != null)
+{ //mensaje de error si los datos no existen o estan mal
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+<div id="FormContainer">
+    <div class="ImgContainer">
+        <img src="~/img/iniciosesion.jpg" alt="" />
+    </div>
+
+    <form asp-action="Login" method="post" id="Form">
+        <h1 id="FormHeading">Bienvenido de Nuevo :D</h1>
+
+
+        <div class="Name">
+            <li>
+
+        <label for="telefono">Teléfono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono" required />
+            </li>
+
+            <li>
+        <label for="contraseña">Contraseña</label>
+        <input type="password" class="form-control" id="contraseña" name="contraseña" required />
+    </li>
+    </div>
+
+    <button type="submit" >Iniciar Sesión</button>
+        <a href="@Url.Action("Index", "Home")">
+            <button type="button" name="button3">Salir</button>
+        </a>
+</form>
+</div>
